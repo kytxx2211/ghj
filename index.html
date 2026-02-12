@@ -2,35 +2,13 @@
 <html lang="th">
 <head>
 <meta charset="UTF-8">
-<title>K.Kantakanit | Saki Studio</title>
+<title>Saki Studio</title>
 
 <style>
 body{
  margin:0;
  font-family:sans-serif;
  background:linear-gradient(135deg,#ffd6ea,#d6f3ff);
-}
-
-nav{
- background:white;
- padding:15px;
- text-align:center;
- box-shadow:0 2px 10px #0002;
-}
-
-nav a, nav button{
- margin:0 8px;
- background:#ff6fae;
- color:white;
- border:none;
- padding:8px 15px;
- border-radius:20px;
- cursor:pointer;
- text-decoration:none;
-}
-
-section{
- padding:40px 20px;
  text-align:center;
 }
 
@@ -39,15 +17,8 @@ section{
  padding:20px;
  border-radius:20px;
  box-shadow:0 0 15px pink;
- margin:10px auto;
  max-width:400px;
-}
-
-.grid{
- display:grid;
- grid-template-columns:repeat(auto-fit,220px);
- gap:15px;
- justify-content:center;
+ margin:20px auto;
 }
 
 .btn{
@@ -62,81 +33,22 @@ section{
 input,select,textarea{
  width:90%;
  padding:8px;
- border-radius:10px;
- border:1px solid #ccc;
  margin:5px 0;
+ border-radius:10px;
 }
 </style>
 </head>
 
 <body>
 
-<!-- LOGIN -->
-<div id="loginScreen" style="
-position:fixed;
-inset:0;
-background:#ffd6ea;
-display:flex;
-justify-content:center;
-align-items:center;
-z-index:9999;
-">
-
-<div class="card">
-
-<h2>🔐 Admin Login</h2>
-
-<input id="user" placeholder="Username"><br>
-<input id="pass" type="password" placeholder="Password"><br>
-
-<button class="btn" onclick="login()">Login</button>
-
-</div>
-</div>
-
-<!-- MAIN -->
-<div id="main" style="display:none">
-
-<nav>
- <a href="#home">หน้าหลัก</a>
- <a href="#profile">โปรไฟล์</a>
- <a href="#portfolio">ผลงาน</a>
- <a href="#booking">จ้างงาน</a>
- <a href="#dashboard">Dashboard</a>
- <a href="#contact">ติดต่อ</a>
- <button onclick="logout()">Logout</button>
-</nav>
-
-<!-- HOME -->
-<section id="home">
 <h1>💖 K.Kantakanit (AKA.Saki)</h1>
-<p>📸 FiveM Photographer | 🎨 Graphic Designer | 🎬 Video Editor</p>
-</section>
-
-<!-- PROFILE -->
-<section id="profile">
-<h2>👩‍🎨 โปรไฟล์</h2>
-<div class="card">
-<img src="me.jpg" width="120" style="border-radius:50%;border:3px solid pink"><br><br>
-<p>ฟรีแลนซ์สายครีเอทีฟ รับงานคุณภาพ งานไว ใส่ใจ 💅✨</p>
-</div>
-</section>
+<p>📸 FiveM | 🎨 Graphic | 🎬 Video</p>
 
 <!-- PORTFOLIO -->
-<section id="portfolio">
 <h2>📸 ผลงาน</h2>
-
-<div class="card">
-<input type="file" id="pImg" accept="image/*"><br>
-<input id="pTitle" placeholder="ชื่องาน"><br>
-<button class="btn" onclick="addPortfolio()">เพิ่มผลงาน</button>
-</div>
-
-<div id="portfolioList" class="grid"></div>
-</section>
+<div id="portfolioList"></div>
 
 <!-- BOOKING -->
-<section id="booking">
 <h2>📅 จ้างงาน</h2>
 
 <div class="card">
@@ -146,85 +58,56 @@ z-index:9999;
 <input id="bDate" type="date"><br>
 
 <select id="bType">
- <option>📸 ถ่ายรูป Offline FiveM</option>
- <option>🎨 งานออกแบบกราฟฟิก</option>
- <option>🎬 ตัดต่อวิดีโอ</option>
+ <option>📸 FiveM Photo</option>
+ <option>🎨 Graphic Design</option>
+ <option>🎬 Video Edit</option>
 </select><br>
 
-<textarea id="bDetail" placeholder="รายละเอียดงาน" rows="3"></textarea><br>
+<textarea id="bDetail" placeholder="รายละเอียดงาน"></textarea><br>
 
-<label>📸 แนบสลิปโอนเงิน</label><br>
-<input type="file" id="bSlip" accept="image/*"><br><br>
+<label>แนบสลิป</label><br>
+<input type="file" id="bSlip"><br><br>
 
-<button class="btn" onclick="addJob()">ส่งงาน</button>
-
-</div>
-</section>
-
-<!-- DASHBOARD -->
-<section id="dashboard">
-<h2>📊 Dashboard</h2>
-
-<div class="grid">
- <div class="card">ทั้งหมด<h2 id="total">0</h2></div>
- <div class="card">⏳<h2 id="pending">0</h2></div>
- <div class="card">✅<h2 id="done">0</h2></div>
-</div>
-
-<h3>📋 รายการงาน</h3>
-<div id="jobList" class="grid"></div>
-</section>
-
-<!-- CONTACT -->
-<section id="contact">
-<h2>📩 ติดต่อ</h2>
-<p>📘 Facebook: kanyathip.praelyy</p>
-<p>📧 Email: sakij6375@gmail.com</p>
-</section>
+<button class="btn" onclick="sendJob()">ส่งงาน</button>
 
 </div>
 
 <script>
 
-/* LOGIN */
-const USER="saki";
-const PASS="Saki2002";
+/* LOAD PORTFOLIO */
 
-function login(){
- if(user.value===USER && pass.value===PASS){
-  localStorage.setItem("login","yes");
-  loginScreen.style.display="none";
-  main.style.display="block";
-  loadJobs();
-  loadPortfolio();
- }else alert("รหัสผิด 😅");
+let works = JSON.parse(localStorage.getItem("works"))||[];
+
+function loadPortfolio(){
+
+ let html="";
+
+ works.forEach(w=>{
+  html+=`
+   <div class="card">
+    <img src="${w.img}" width="180"><br>
+    ${w.title}
+   </div>
+  `;
+ });
+
+ portfolioList.innerHTML=html;
 }
 
-function logout(){
- localStorage.removeItem("login");
- location.reload();
-}
+loadPortfolio();
 
-if(localStorage.getItem("login")==="yes"){
- loginScreen.style.display="none";
- main.style.display="block";
-}
+/* SEND JOB */
 
-/* JOB SYSTEM */
-let jobs=JSON.parse(localStorage.getItem("jobs"))||[];
+let jobs = JSON.parse(localStorage.getItem("jobs"))||[];
 
-function saveJobs(){
- localStorage.setItem("jobs",JSON.stringify(jobs));
-}
+function sendJob(){
 
-function addJob(){
-
- if(!bName.value||!bContact.value||!bDate.value||!bDetail.value){
-  alert("กรอกให้ครบ 💖"); return;
+ if(!bName.value||!bContact.value||!bDate.value){
+  alert("กรอกให้ครบ"); return;
  }
 
- let slipFile=bSlip.files[0];
- let slipURL=slipFile?URL.createObjectURL(slipFile):"";
+ let slip=bSlip.files[0];
+ let slipURL=slip?URL.createObjectURL(slip):"";
 
  jobs.push({
   name:bName.value,
@@ -236,82 +119,11 @@ function addJob(){
   status:"pending"
  });
 
- saveJobs();
+ localStorage.setItem("jobs",JSON.stringify(jobs));
+
+ alert("ส่งงานสำเร็จ 💖");
+
  bName.value=bContact.value=bDate.value=bDetail.value="";
- loadJobs();
-}
-
-function loadJobs(){
-
- jobList.innerHTML="";
- let t=0,p=0,d=0;
-
- jobs.forEach((j,i)=>{
-
-  t++;
-  if(j.status==="pending")p++;
-  if(j.status==="done")d++;
-
-  let div=document.createElement("div");
-  div.className="card";
-
-  div.innerHTML=`
-  👤 ${j.name}<br>
-  📅 ${j.date}<br>
-  💼 ${j.type}<br>
-  📝 ${j.detail}<br><br>
-  ${j.slip?`<img src="${j.slip}" width="100"><br><br>`:""}
-  ${j.status==="pending"?"⏳":"✅"}<br><br>
-  <button class="btn" onclick="setStatus(${i},'pending')">⏳</button>
-  <button class="btn" onclick="setStatus(${i},'done')">✅</button>
-  `;
-
-  jobList.appendChild(div);
- });
-
- total.innerText=t;
- pending.innerText=p;
- done.innerText=d;
-}
-
-function setStatus(i,s){
- jobs[i].status=s;
- saveJobs();
- loadJobs();
-}
-
-/* PORTFOLIO */
-let works=JSON.parse(localStorage.getItem("works"))||[];
-
-function saveWorks(){
- localStorage.setItem("works",JSON.stringify(works));
-}
-
-function addPortfolio(){
-
- let file=pImg.files[0];
- if(!file||!pTitle.value){
-  alert("ใส่รูป + ชื่อก่อน 💖"); return;
- }
-
- let url=URL.createObjectURL(file);
-
- works.push({title:pTitle.value,img:url});
- saveWorks();
- pImg.value=pTitle.value="";
- loadPortfolio();
-}
-
-function loadPortfolio(){
-
- portfolioList.innerHTML="";
-
- works.forEach(w=>{
-  let div=document.createElement("div");
-  div.className="card";
-  div.innerHTML=`<img src="${w.img}" width="180"><br>${w.title}`;
-  portfolioList.appendChild(div);
- });
 }
 
 </script>
