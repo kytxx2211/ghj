@@ -1,345 +1,85 @@
 <!DOCTYPE html>
-<html lang="th">
+<html>
 <head>
-<meta charset="UTF-8">
-<title><h1>🌸 K.Kantakanit 🌸</h1>
-<p>(AKA.Saki)</p>
-</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&display=swap" rel="stylesheet">
-
-<style>
-
-/* ===== BASE ===== */
-
-body{
- margin:0;
- font-family:'Fredoka',sans-serif;
- background:radial-gradient(circle,#ffe6f2,#dff3ff,#f2e6ff);
- overflow-x:hidden;
- cursor:url("https://cur.cursors-4u.net/others/oth-1/oth62.cur"),auto;
-}
-
-section{
- padding:100px 20px;
- text-align:center;
-}
-
-h1{
- font-size:55px;
- color:#ff4fa1;
- text-shadow:0 0 15px #ffd6ea;
-}
-
-h2{
- color:#9b6cff;
-}
-
-/* ===== NAV ===== */
-<a href="#review">Review</a>
-<nav>
- <a href="#home">Home</a>
- <a href="#work">Works</a>
- <a href="#review">Review</a>
- <a href="#shop">Shop</a>
- <a href="#contact">Contact</a>
-</nav>
-
-nav{
- position:fixed;
- top:0;
- width:100%;
- background:rgba(255,255,255,0.7);
- backdrop-filter:blur(10px);
- padding:15px;
- text-align:center;
- box-shadow:0 0 20px pink;
- z-index:999;
-}
-
-nav a{
- margin:0 15px;
- color:#ff4fa1;
- text-decoration:none;
- font-weight:600;
-}
-
-/* ===== BUTTON ===== */
-
-.btn{
- background:linear-gradient(135deg,#ff9ecf,#9fdcff);
- color:white;
- padding:12px 28px;
- border-radius:40px;
- text-decoration:none;
- font-weight:600;
- display:inline-block;
- box-shadow:0 0 15px pink;
- transition:.3s;
-}
-
-.btn:hover{
- transform:scale(1.1);
-}
-
-/* ===== CARD ===== */
-
-.grid{
- display:grid;
- grid-template-columns:repeat(auto-fit,240px);
- gap:25px;
- justify-content:center;
-}
-
-.card{
- background:rgba(255,255,255,0.8);
- padding:25px;
- border-radius:25px;
- border:2px solid white;
- box-shadow:0 0 20px #ffd1ea;
- transition:.3s;
-}
-
-.card:hover{
- transform:scale(1.05);
-}
-
-/* ===== POPUP ===== */
-
-#popup{
- position:fixed;
- inset:0;
- background:#0007;
- display:flex;
- justify-content:center;
- align-items:center;
- z-index:9999;
-}
-
-#popupBox{
- background:white;
- padding:30px;
- border-radius:25px;
- max-width:350px;
- text-align:center;
- box-shadow:0 0 30px pink;
-}
-
-/* ===== CURSOR EFFECT ===== */
-
-.sparkle{
- position:fixed;
- width:8px;
- height:8px;
- background:pink;
- border-radius:50%;
- pointer-events:none;
- animation:fade .8s linear;
-}
-
-@keyframes fade{
- from{opacity:1;transform:scale(1)}
- to{opacity:0;transform:scale(0)}
-}
-
-</style>
+  <!-- CSS อยู่ตรงนี้ -->
 </head>
+<script>
+
+// /* ===== LOGIN SYSTEM ===== */
+
+const ADMIN_USER = "saki";
+const ADMIN_PASS = "Saki2026@Work!"; // เปลี่ยนได้
+
+function login(){
+
+ let u = user.value;
+ let p = pass.value;
+
+ if(u===ADMIN_USER && p===ADMIN_PASS){
+
+  localStorage.setItem("login","admin");
+
+  document.getElementById("loginScreen").style.display="none";
+
+  alert("ยินดีต้อนรับ Saki 💖");
+
+ }
+
+ else{
+
+  alert("Username หรือ Password ผิด 😅");
+
+ }
+
+}
+
+// Auto Login
+if(localStorage.getItem("login")==="admin"){
+ document.getElementById("loginScreen").style.display="none";
+}
+
+
+/* ===== LOGIN SYSTEM ===== */
+
+const ADMIN_USER = "saki";
+const ADMIN_PASS = "Saki2026@Work!";
+
+function login(){...}
+
+</script>
 
 <body>
 
-<!-- 🎧 MUSIC -->
-<audio autoplay loop>
- <source src="music.mp3" type="audio/mpeg">
-</audio>
+ <!-- 🔐 LOGIN SCREEN -->
+<div id="loginScreen" style="
+position:fixed;
+inset:0;
+background:linear-gradient(135deg,#ffd6ea,#d6f3ff);
+display:flex;
+justify-content:center;
+align-items:center;
+z-index:10000;
+">
 
-<!-- 💬 POPUP -->
-<div id="popup">
- <div id="popupBox">
-  <h2>💖 สวัสดีค่ะ</h2>
-  <p>แพร | Video Editor & Admin</p>
-  <p>ยินดีต้อนรับสู่ Portfolio ✨</p>
-  <button class="btn" onclick="closePopup()">เข้าเว็บ</button>
- </div>
-</div>
+<div class="card" style="max-width:350px">
 
-<!-- 🌸 NAV -->
-<nav>
- <a href="#home">Home</a>
- <a href="#work">Works</a>
- <a href="#shop">Shop</a>
- <a href="#contact">Contact</a>
-</nav>
+<h2>🔐 Login</h2>
 
-<!-- 🏠 HOME -->
-<section id="home">
+<input id="user" placeholder="Username"
+style="width:90%;padding:10px"><br><br>
 
- <h1>🌸 Prae Portfolio 🌸</h1>
- <p>Editor | Admin | Commission</p>
+<input id="pass" type="password" placeholder="Password"
+style="width:90%;padding:10px"><br><br>
 
- <p>💿 💖 ⭐ 🦋 ✨</p>
+<button class="btn" onclick="login()">เข้าสู่ระบบ</button>
 
- <a class="btn" href="#contact">จ้างงาน</a>
-
-</section>
-
-<!-- 💼 WORKS -->
-<section id="work">
-
-<h2>💼 ผลงาน (Preview)</h2>
-
-<div>
-
- <button class="btn" onclick="filter('all')">ทั้งหมด</button>
- <button class="btn" onclick="filter('video')">ตัดต่อ</button>
- <button class="btn" onclick="filter('design')">ออกแบบ</button>
- <button class="btn" onclick="filter('admin')">แอดมิน</button>
-
-</div>
-
-<br>
-
-<div class="grid">
-
- <div class="card work video">🎬 TikTok Edit</div>
- <div class="card work video">🎥 Reels Edit</div>
-
- <div class="card work design">🎨 Banner</div>
- <div class="card work design">🖼️ Thumbnail</div>
-
- <div class="card work admin">📱 Page Admin</div>
- <div class="card work admin">💬 Chat Support</div>
-
-</div>
-
-</section>
-
-<!-- 🛒 SHOP -->
-<section id="shop">
-
-<h2>🛒 Shop</h2>
-
-<div class="grid">
-
- <div class="card">
-  🎬 ตัดคลิป<br>
-  199฿<br><br>
-
-  <a class="btn"
-  href="https://www.paypal.me/"
-  target="_blank">
-  Pay Now
-  </a>
- </div>
-
- <div class="card">
-  🎨 คอมมิชชั่น<br>
-  149฿<br><br>
-
-  <a class="btn"
-  href="https://www.truemoney.com/"
-  target="_blank">
-  Pay Now
-  </a>
- </div>
-
-</div>
-
-</section>
- <section id="review">
-
-<h2>💬 รีวิวจากลูกค้า</h2>
-
-<div class="grid">
-
- <div class="card">
-  ⭐⭐⭐⭐⭐<br><br>
-  “ตัดต่อเร็ว งานสวย ใส่ใจมาก 💖”<br><br>
-  — ลูกค้า TikTok
- </div>
-
- <div class="card">
-  ⭐⭐⭐⭐⭐<br><br>
-  “แอดมินตอบไว แก้ให้จนพอใจเลย ✨”<br><br>
-  — ร้านค้าออนไลน์
- </div>
-
- <div class="card">
-  ⭐⭐⭐⭐⭐<br><br>
-  “คุ้มราคามาก งานดูโปรขึ้นทันที 🔥”<br><br>
-  — สตรีมเมอร์
- </div>
-
-</div>
-
-</section>
-
-
-<!-- 📩 CONTACT -->
-<section id="contact">
-
-<h2>📩 ติดต่อ</h2>
-
-<p>
-📘 Facebook:<br>
-<a href="https://www.facebook.com/kanyathip.praelyy" target="_blank">
-kanyathip.praelyy
-</a>
-
-<br><br>
-
-📧 sakij6375@gmail.com
+<p style="font-size:12px;color:#999">
+Admin Only
 </p>
 
-<a class="btn"
-href="https://www.facebook.com/kanyathip.praelyy"
-target="_blank">
-Inbox
-</a>
+</div>
+</div>
 
-</section>
-
-<!-- ⚡ SCRIPT -->
-<script>
-
-/* POPUP */
-function closePopup(){
- document.getElementById("popup").style.display="none";
-}
-
-/* CURSOR */
-document.addEventListener("mousemove",e=>{
- let s=document.createElement("div");
- s.className="sparkle";
- s.style.left=e.pageX+"px";
- s.style.top=e.pageY+"px";
- document.body.appendChild(s);
-
- setTimeout(()=>s.remove(),800);
-});
-
-/* FILTER */
-function filter(type){
-
- let items=document.querySelectorAll(".work");
-
- items.forEach(i=>{
-
-  if(type==="all"){
-   i.style.display="block";
-  }
-
-  else if(i.classList.contains(type)){
-   i.style.display="block";
-  }
-
-  else{
-   i.style.display="none";
-  }
-
- });
-}
-
-</script>
 
 </body>
 </html>
