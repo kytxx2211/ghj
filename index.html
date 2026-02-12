@@ -1,67 +1,49 @@
 <!DOCTYPE html>
-<html>
+<html lang="th">
 <head>
-  <!-- CSS อยู่ตรงนี้ -->
+<meta charset="UTF-8">
+<title>Saki Login</title>
+
+<style>
+body{
+ margin:0;
+ font-family:sans-serif;
+ background:linear-gradient(135deg,#ffd6ea,#d6f3ff);
+}
+
+/* กล่อง */
+.card{
+ background:white;
+ padding:25px;
+ border-radius:20px;
+ box-shadow:0 0 20px pink;
+ text-align:center;
+}
+
+.btn{
+ background:#ff6fae;
+ color:white;
+ padding:10px 25px;
+ border:none;
+ border-radius:25px;
+ cursor:pointer;
+}
+</style>
 </head>
-<script>
-
-// /* ===== LOGIN SYSTEM ===== */
-
-const ADMIN_USER = "saki";
-const ADMIN_PASS = "Saki2002"; // เปลี่ยนได้
-
-function login(){
-
- let u = user.value;
- let p = pass.value;
-
- if(u===ADMIN_USER && p===ADMIN_PASS){
-
-  localStorage.setItem("login","admin");
-
-  document.getElementById("loginScreen").style.display="none";
-
-  alert("ยินดีต้อนรับ Saki 💖");
-
- }
-
- else{
-
-  alert("Username หรือ Password ผิด 😅");
-
- }
-
-}
-
-// Auto Login
-if(localStorage.getItem("login")==="admin"){
- document.getElementById("loginScreen").style.display="none";
-}
-
-
-/* ===== LOGIN SYSTEM ===== */
-
-const ADMIN_USER = "saki";
-const ADMIN_PASS = "Saki2026@Work!";
-
-function login(){...}
-
-</script>
 
 <body>
 
- <!-- 🔐 LOGIN SCREEN -->
+<!-- 🔐 LOGIN SCREEN -->
 <div id="loginScreen" style="
 position:fixed;
 inset:0;
-background:linear-gradient(135deg,#ffd6ea,#d6f3ff);
 display:flex;
 justify-content:center;
 align-items:center;
-z-index:10000;
+z-index:9999;
 ">
 
-<div class="card" style="max-width:350px">
+<div class="card">
 
 <h2>🔐 Login</h2>
 
@@ -73,13 +55,59 @@ style="width:90%;padding:10px"><br><br>
 
 <button class="btn" onclick="login()">เข้าสู่ระบบ</button>
 
-<p style="font-size:12px;color:#999">
-Admin Only
-</p>
-
 </div>
 </div>
 
+<!-- 🌸 เนื้อหาเว็บ (ซ่อนก่อน) -->
+<div id="main" style="display:none">
+
+<h1>💖 Welcome Saki</h1>
+<p>เข้าเว็บสำเร็จแล้ว 🎉</p>
+
+</div>
+
+<!-- ⚡ SCRIPT ต้องอยู่ล่างสุด -->
+<script>
+
+/* ===== LOGIN SYSTEM ===== */
+
+const ADMIN_USER = "saki";
+const ADMIN_PASS = "Saki2002"; // เปลี่ยนได้
+
+function login(){
+
+ let u = document.getElementById("user").value;
+ let p = document.getElementById("pass").value;
+
+ if(u === ADMIN_USER && p === ADMIN_PASS){
+
+  localStorage.setItem("login","yes");
+
+  document.getElementById("loginScreen").style.display="none";
+  document.getElementById("main").style.display="block";
+
+  alert("ยินดีต้อนรับ Saki 💖");
+
+ }else{
+
+  alert("รหัสผิดนะ 😅");
+
+ }
+}
+
+/* Auto Login */
+window.onload = function(){
+
+ if(localStorage.getItem("login") === "yes"){
+
+  document.getElementById("loginScreen").style.display="none";
+  document.getElementById("main").style.display="block";
+
+ }
+
+}
+
+</script>
 
 </body>
 </html>
