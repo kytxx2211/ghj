@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>Saki Admin</title>
+
+<style>
+body{
+ margin:0;
+ font-family:sans-serif;
+ background:#ffe6f2;
+ text-align:center;
+}
+
+.card{
+ background:white;
+ padding:20px;
+ border-radius:20px;
+ box-shadow:0 0 15px pink;
+ max-width:400px;
+ margin:15px auto;
+}
+
+.btn{
+ background:#ff6fae;
+ color:white;
+ border:none;
+ padding:8px 20px;
+ border-radius:20px;
+ cursor:pointer;
+}
+
+.grid{
+ display:grid;
+ grid-template-columns:repeat(auto-fit,220px);
+ gap:15px;
+ justify-content:center;
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOGIN -->
+<div id="login">
+
+<h2>🔐 Admin Login</h2>
+
+<input id="user" placeholder="Username"><br><br>
+<input id="pass" type="password"><br><br>
+
+<button class="btn" onclick="login()">Login</button>
+
+</div>
+
+<!-- ADMIN -->
+<div id="admin" style="display:none">
+
+<h1>📊 Saki Dashboard</h1>
+
+<button class="btn" onclick="logout()">Logout</button>
+
+<!-- ADD PORTFOLIO -->
+<h2>➕ เพิ่มผลงาน</h2>
+
+<div class="card">
+
+<input type="file" id="pImg"><br>
+<input id="pTitle" placeholder="ชื่องาน"><br>
+
+<button class="btn" onclick="addWork()">เพิ่ม</button>
+
+</div>
+
+<!-- JOB LIST -->
+<h2>📋 งานทั้งหมด</h2>
+
+<div id="jobList" class="grid"></div>
+
+</div>
+
+<script>
+
+/* LOGIN */
+
+const USER="saki";
+const PASS="Saki2002";
+
+function login(){
+
+ if(user.value===USER && pass.value===PASS){
+
+  localStorage.setItem("admin","yes");
+
+  login.style.display="none";
+  admin.style.display="block";
+
+  loadJobs();
+  loadWorks();
+
+ }else alert("รหัสผิด");
+}
+
+function logout(){
+ localStorage.removeItem("admin");
+ location.reload();
+}
+
+if(localStorage.getItem("admin")==="yes"){
+ login.style.display="none";
+ admin.style.display="block";
+}
+
+/* JOB */
+
+let jobs=JSON.parse(localStorage.getItem("jobs"))||[];
+
+function saveJobs(){
+ localStorage.setItem("jobs",JSON.stringify(jobs));
+}
+
+function loadJobs(){
+
+ jobList.innerHTML="";
+
+ jobs.forEach((j,i)=>{
+
+  let div=document.createElement("div");
+  div.className="card";
+
+  div.innerHTML=`
+  👤 ${j.name}<br>
+  📞 ${j.contact}<br>
+  📅 ${j.date}<br>
+  💼 ${j.type}<br>
+  📝 ${j.detail}<br><br>
+
+  ${j.slip?`<img src="${j.slip}" width="100"><br>`:""}
+
+  สถานะ: ${j.status}<br><br>
+
+  <button class="btn" onclick="setStatus(${i},'pending')">⏳</button>
+  <button class="btn" onclick="setStatus(${i},'done')">✅</button>
+  `;
+
+  jobList.appendChild(div);
+ });
+}
+
+function setStatus(i,s){
+ jobs[i].status=s;
+ saveJobs();
+ loadJobs();
+}
+
+/* PORTFOLIO */
+
+let works=JSON.parse(localStorage.getItem("works"))||[];
+
+function saveWorks(){
+ localStorage.setItem("works",JSON.stringify(works));
+}
+
+function addWork(){
+
+ let file=pImg.files[0];
+
+ if(!file||!pTitle.value){
+  alert("ใส่ข้อมูลให้ครบ"); return;
+ }
+
+ let url=URL.createObjectURL(file);
+
+ works.push({
+  title:pTitle.value,
+  img:url
+ });
+
+ saveWorks();
+
+ pImg.value=pTitle.value="";
+ loadWorks();
+}
+
+function loadWorks(){}
+
+</script>
+
+</body>
+</html>
