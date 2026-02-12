@@ -2,7 +2,7 @@
 <html lang="th">
 <head>
 <meta charset="UTF-8">
-<title>K.Kantakanit | Saki System</title>
+<title>K.Kantakanit | Admin System</title>
 
 <style>
 body{
@@ -11,26 +11,27 @@ body{
  background:linear-gradient(135deg,#ffd6ea,#d6f3ff);
 }
 
-/* UI */
+nav{
+ background:white;
+ padding:15px;
+ text-align:center;
+ box-shadow:0 2px 10px #0002;
+}
+
+nav button{
+ background:#ff6fae;
+ color:white;
+ border:none;
+ padding:8px 15px;
+ border-radius:20px;
+ cursor:pointer;
+}
+
 .card{
  background:white;
  padding:20px;
  border-radius:20px;
  box-shadow:0 0 15px pink;
- text-align:center;
-}
-
-.btn{
- background:#ff6fae;
- color:white;
- padding:8px 20px;
- border:none;
- border-radius:20px;
- cursor:pointer;
-}
-
-section{
- padding:40px 20px;
  text-align:center;
 }
 
@@ -40,20 +41,34 @@ section{
  gap:15px;
  justify-content:center;
 }
+
+section{
+ padding:40px 20px;
+ text-align:center;
+}
+
+.btn{
+ background:#ff6fae;
+ color:white;
+ border:none;
+ padding:8px 20px;
+ border-radius:20px;
+ cursor:pointer;
+}
 </style>
 </head>
 
 <body>
 
-<!-- 🔐 LOGIN -->
+<!-- LOGIN -->
 <div id="loginScreen" style="
 position:fixed;
 inset:0;
+background:#ffd6ea;
 display:flex;
 justify-content:center;
 align-items:center;
 z-index:9999;
-background:#ffd6ea;
 ">
 
 <div class="card">
@@ -61,29 +76,49 @@ background:#ffd6ea;
 <h2>🔐 Admin Login</h2>
 
 <input id="user" placeholder="Username"><br><br>
-<input id="pass" type="password" placeholder="Password"><br><br>
+<input id="pass" type="password"><br><br>
 
-<button class="btn" onclick="login()">เข้าสู่ระบบ</button>
+<button class="btn" onclick="login()">Login</button>
 
 </div>
 </div>
 
-<!-- 🌸 MAIN -->
+<!-- MAIN -->
 <div id="main" style="display:none">
+
+<nav>
+ 💖 K.Kantakanit (AKA.Saki)
+ <button onclick="logout()">Logout</button>
+</nav>
 
 <section>
 
-<h1>💖 K.Kantakanit (AKA.Saki)</h1>
-<p>Freelance Dashboard</p>
+<h2>📊 Dashboard</h2>
 
-<button class="btn" onclick="logout()">Logout</button>
+<div class="grid">
+
+ <div class="card">
+  งานทั้งหมด
+  <h2 id="total">0</h2>
+ </div>
+
+ <div class="card">
+  ⏳ รอดำเนินการ
+  <h2 id="pending">0</h2>
+ </div>
+
+ <div class="card">
+  ✅ เสร็จแล้ว
+  <h2 id="done">0</h2>
+ </div>
+
+</div>
 
 </section>
 
-<!-- 📅 BOOKING -->
 <section>
 
-<h2>📅 จองคิวงาน</h2>
+<h2>📅 เพิ่มงาน</h2>
 
 <div class="card">
 
@@ -97,39 +132,15 @@ background:#ffd6ea;
  <option>คอมมิชชั่น</option>
 </select><br><br>
 
-<button class="btn" onclick="addJob()">จองงาน</button>
+<button class="btn" onclick="addJob()">เพิ่มงาน</button>
 
 </div>
 
 </section>
 
-<!-- 📊 DASHBOARD -->
 <section>
 
-<h2>📊 Dashboard</h2>
-
-<div class="grid">
-
- <div class="card">
-  งานทั้งหมด<br>
-  <h2 id="total">0</h2>
- </div>
-
- <div class="card">
-  ⏳ รอดำเนินการ<br>
-  <h2 id="pending">0</h2>
- </div>
-
- <div class="card">
-  ✅ เสร็จแล้ว<br>
-  <h2 id="done">0</h2>
- </div>
-
-</div>
-
-<br>
-
-<h3>📋 รายการงาน</h3>
+<h2>📋 รายการงาน</h2>
 
 <div id="jobList" class="grid"></div>
 
@@ -137,18 +148,17 @@ background:#ffd6ea;
 
 </div>
 
-<!-- ⚡ SCRIPT -->
 <script>
 
 /* LOGIN */
 
-const USER = "saki";
-const PASS = "Saki2002";
+const USER="saki";
+const PASS="Saki2002";
 
 function login(){
 
- let u = user.value.trim();
- let p = pass.value.trim();
+ let u=user.value.trim();
+ let p=pass.value.trim();
 
  if(u===USER && p===PASS){
 
@@ -165,27 +175,20 @@ function login(){
 }
 
 function logout(){
-
  localStorage.removeItem("login");
  location.reload();
 }
 
 /* AUTO LOGIN */
 
-window.onload=function(){
-
- if(localStorage.getItem("login")==="yes"){
-
-  loginScreen.style.display="none";
-  main.style.display="block";
-  loadJobs();
- }
-
+if(localStorage.getItem("login")==="yes"){
+ loginScreen.style.display="none";
+ main.style.display="block";
 }
 
-/* JOB SYSTEM */
+/* JOB */
 
-let jobs = JSON.parse(localStorage.getItem("jobs")) || [];
+let jobs=JSON.parse(localStorage.getItem("jobs"))||[];
 
 function save(){
  localStorage.setItem("jobs",JSON.stringify(jobs));
@@ -193,20 +196,19 @@ function save(){
 
 function addJob(){
 
- let job = {
+ if(!bName.value||!bContact.value||!bDate.value){
+  alert("กรอกให้ครบ 💖");
+  return;
+ }
+
+ jobs.push({
   name:bName.value,
   contact:bContact.value,
   date:bDate.value,
   type:bType.value,
   status:"pending"
- };
+ });
 
- if(!job.name||!job.contact||!job.date){
-  alert("กรอกให้ครบก่อนนะ 💖");
-  return;
- }
-
- jobs.push(job);
  save();
 
  bName.value="";
@@ -214,53 +216,47 @@ function addJob(){
  bDate.value="";
 
  loadJobs();
-
- alert("จองสำเร็จ 🎉");
 }
 
 function loadJobs(){
 
  jobList.innerHTML="";
 
- let total=jobs.length;
- let pending=0;
- let done=0;
+ let t=0,p=0,d=0;
 
- jobs.slice().reverse().forEach((j,i)=>{
+ jobs.forEach((j,i)=>{
 
-  if(j.status==="pending") pending++;
-  if(j.status==="done") done++;
+  t++;
+  if(j.status==="pending")p++;
+  if(j.status==="done")d++;
 
   let div=document.createElement("div");
   div.className="card";
 
   div.innerHTML=`
-
   👤 ${j.name}<br>
   📅 ${j.date}<br>
   💼 ${j.type}<br>
   📞 ${j.contact}<br><br>
 
-  สถานะ:
-  <b>${j.status==="pending"?"⏳ รอดำเนินการ":"✅ เสร็จแล้ว"}</b>
+  ${j.status==="pending"?"⏳":"✅"}
+
   <br><br>
 
   <button class="btn" onclick="setStatus(${i},'pending')">⏳</button>
   <button class="btn" onclick="setStatus(${i},'done')">✅</button>
-
   `;
 
   jobList.appendChild(div);
 
  });
 
- total.innerText=total;
- pending.innerText=pending;
- done.innerText=done;
+ total.innerText=t;
+ pending.innerText=p;
+ done.innerText=d;
 }
 
 function setStatus(i,s){
-
  jobs[i].status=s;
  save();
  loadJobs();
