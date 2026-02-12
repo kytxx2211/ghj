@@ -2,7 +2,7 @@
 <html lang="th">
 <head>
 <meta charset="UTF-8">
-<title>Saki Login</title>
+<title>K.Kantakanit | Saki System</title>
 
 <style>
 body{
@@ -11,29 +11,41 @@ body{
  background:linear-gradient(135deg,#ffd6ea,#d6f3ff);
 }
 
-/* กล่อง */
+/* UI */
 .card{
  background:white;
- padding:25px;
+ padding:20px;
  border-radius:20px;
- box-shadow:0 0 20px pink;
+ box-shadow:0 0 15px pink;
  text-align:center;
 }
 
 .btn{
  background:#ff6fae;
  color:white;
- padding:10px 25px;
+ padding:8px 20px;
  border:none;
- border-radius:25px;
+ border-radius:20px;
  cursor:pointer;
+}
+
+section{
+ padding:40px 20px;
+ text-align:center;
+}
+
+.grid{
+ display:grid;
+ grid-template-columns:repeat(auto-fit,220px);
+ gap:15px;
+ justify-content:center;
 }
 </style>
 </head>
 
 <body>
 
-<!-- 🔐 LOGIN SCREEN -->
+<!-- 🔐 LOGIN -->
 <div id="loginScreen" style="
 position:fixed;
 inset:0;
@@ -41,70 +53,217 @@ display:flex;
 justify-content:center;
 align-items:center;
 z-index:9999;
+background:#ffd6ea;
 ">
 
 <div class="card">
 
-<h2>🔐 Login</h2>
+<h2>🔐 Admin Login</h2>
 
-<input id="user" placeholder="Username"
-style="width:90%;padding:10px"><br><br>
-
-<input id="pass" type="password" placeholder="Password"
-style="width:90%;padding:10px"><br><br>
+<input id="user" placeholder="Username"><br><br>
+<input id="pass" type="password" placeholder="Password"><br><br>
 
 <button class="btn" onclick="login()">เข้าสู่ระบบ</button>
 
 </div>
 </div>
 
-<!-- 🌸 เนื้อหาเว็บ (ซ่อนก่อน) -->
+<!-- 🌸 MAIN -->
 <div id="main" style="display:none">
 
-<h1>💖 Welcome Saki</h1>
-<p>เข้าเว็บสำเร็จแล้ว 🎉</p>
+<section>
+
+<h1>💖 K.Kantakanit (AKA.Saki)</h1>
+<p>Freelance Dashboard</p>
+
+<button class="btn" onclick="logout()">Logout</button>
+
+</section>
+
+<!-- 📅 BOOKING -->
+<section>
+
+<h2>📅 จองคิวงาน</h2>
+
+<div class="card">
+
+<input id="bName" placeholder="ชื่อลูกค้า"><br><br>
+<input id="bContact" placeholder="ติดต่อ"><br><br>
+<input id="bDate" type="date"><br><br>
+
+<select id="bType">
+ <option>ตัดต่อวิดีโอ</option>
+ <option>แอดมินเพจ</option>
+ <option>คอมมิชชั่น</option>
+</select><br><br>
+
+<button class="btn" onclick="addJob()">จองงาน</button>
 
 </div>
 
-<!-- ⚡ SCRIPT ต้องอยู่ล่างสุด -->
+</section>
+
+<!-- 📊 DASHBOARD -->
+<section>
+
+<h2>📊 Dashboard</h2>
+
+<div class="grid">
+
+ <div class="card">
+  งานทั้งหมด<br>
+  <h2 id="total">0</h2>
+ </div>
+
+ <div class="card">
+  ⏳ รอดำเนินการ<br>
+  <h2 id="pending">0</h2>
+ </div>
+
+ <div class="card">
+  ✅ เสร็จแล้ว<br>
+  <h2 id="done">0</h2>
+ </div>
+
+</div>
+
+<br>
+
+<h3>📋 รายการงาน</h3>
+
+<div id="jobList" class="grid"></div>
+
+</section>
+
+</div>
+
+<!-- ⚡ SCRIPT -->
 <script>
 
-/* ===== LOGIN SYSTEM ===== */
+/* LOGIN */
 
-const ADMIN_USER = "saki";
-const ADMIN_PASS = "Saki2002"; // เปลี่ยนได้
+const USER = "saki";
+const PASS = "Saki2002";
 
 function login(){
 
- let u = document.getElementById("user").value;
- let p = document.getElementById("pass").value;
+ let u = user.value.trim();
+ let p = pass.value.trim();
 
- if(u === ADMIN_USER && p === ADMIN_PASS){
+ if(u===USER && p===PASS){
 
   localStorage.setItem("login","yes");
 
-  document.getElementById("loginScreen").style.display="none";
-  document.getElementById("main").style.display="block";
+  loginScreen.style.display="none";
+  main.style.display="block";
 
-  alert("ยินดีต้อนรับ Saki 💖");
+  loadJobs();
 
  }else{
-
-  alert("รหัสผิดนะ 😅");
-
+  alert("รหัสผิด 😅");
  }
 }
 
-/* Auto Login */
-window.onload = function(){
+function logout(){
 
- if(localStorage.getItem("login") === "yes"){
+ localStorage.removeItem("login");
+ location.reload();
+}
 
-  document.getElementById("loginScreen").style.display="none";
-  document.getElementById("main").style.display="block";
+/* AUTO LOGIN */
 
+window.onload=function(){
+
+ if(localStorage.getItem("login")==="yes"){
+
+  loginScreen.style.display="none";
+  main.style.display="block";
+  loadJobs();
  }
 
+}
+
+/* JOB SYSTEM */
+
+let jobs = JSON.parse(localStorage.getItem("jobs")) || [];
+
+function save(){
+ localStorage.setItem("jobs",JSON.stringify(jobs));
+}
+
+function addJob(){
+
+ let job = {
+  name:bName.value,
+  contact:bContact.value,
+  date:bDate.value,
+  type:bType.value,
+  status:"pending"
+ };
+
+ if(!job.name||!job.contact||!job.date){
+  alert("กรอกให้ครบก่อนนะ 💖");
+  return;
+ }
+
+ jobs.push(job);
+ save();
+
+ bName.value="";
+ bContact.value="";
+ bDate.value="";
+
+ loadJobs();
+
+ alert("จองสำเร็จ 🎉");
+}
+
+function loadJobs(){
+
+ jobList.innerHTML="";
+
+ let total=jobs.length;
+ let pending=0;
+ let done=0;
+
+ jobs.slice().reverse().forEach((j,i)=>{
+
+  if(j.status==="pending") pending++;
+  if(j.status==="done") done++;
+
+  let div=document.createElement("div");
+  div.className="card";
+
+  div.innerHTML=`
+
+  👤 ${j.name}<br>
+  📅 ${j.date}<br>
+  💼 ${j.type}<br>
+  📞 ${j.contact}<br><br>
+
+  สถานะ:
+  <b>${j.status==="pending"?"⏳ รอดำเนินการ":"✅ เสร็จแล้ว"}</b>
+  <br><br>
+
+  <button class="btn" onclick="setStatus(${i},'pending')">⏳</button>
+  <button class="btn" onclick="setStatus(${i},'done')">✅</button>
+
+  `;
+
+  jobList.appendChild(div);
+
+ });
+
+ total.innerText=total;
+ pending.innerText=pending;
+ done.innerText=done;
+}
+
+function setStatus(i,s){
+
+ jobs[i].status=s;
+ save();
+ loadJobs();
 }
 
 </script>
