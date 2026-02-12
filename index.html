@@ -2,127 +2,306 @@
 <html lang="th">
 <head>
 <meta charset="UTF-8">
-<title>แพร | Portfolio</title>
+<title>Prae Y2K Portfolio</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&display=swap" rel="stylesheet">
 
 <style>
+
+/* ===== BASE ===== */
+
 body{
  margin:0;
- font-family:sans-serif;
- background:linear-gradient(135deg,#ffd6ea,#d6f3ff);
+ font-family:'Fredoka',sans-serif;
+ background:radial-gradient(circle,#ffe6f2,#dff3ff,#f2e6ff);
+ overflow-x:hidden;
+ cursor:url("https://cur.cursors-4u.net/others/oth-1/oth62.cur"),auto;
 }
 
 section{
- padding:60px 20px;
+ padding:100px 20px;
  text-align:center;
 }
 
-h1,h2{
- color:#ff6fb1;
+h1{
+ font-size:55px;
+ color:#ff4fa1;
+ text-shadow:0 0 15px #ffd6ea;
 }
 
-/* เมนู */
+h2{
+ color:#9b6cff;
+}
+
+/* ===== NAV ===== */
+
 nav{
  position:fixed;
  top:0;
  width:100%;
- background:white;
- padding:10px;
- box-shadow:0 2px 10px #0002;
+ background:rgba(255,255,255,0.7);
+ backdrop-filter:blur(10px);
+ padding:15px;
+ text-align:center;
+ box-shadow:0 0 20px pink;
+ z-index:999;
 }
 
 nav a{
  margin:0 15px;
+ color:#ff4fa1;
  text-decoration:none;
- color:#555;
- font-weight:bold;
+ font-weight:600;
 }
 
-/* การ์ด */
+/* ===== BUTTON ===== */
+
+.btn{
+ background:linear-gradient(135deg,#ff9ecf,#9fdcff);
+ color:white;
+ padding:12px 28px;
+ border-radius:40px;
+ text-decoration:none;
+ font-weight:600;
+ display:inline-block;
+ box-shadow:0 0 15px pink;
+ transition:.3s;
+}
+
+.btn:hover{
+ transform:scale(1.1);
+}
+
+/* ===== CARD ===== */
+
 .grid{
  display:grid;
- grid-template-columns:repeat(auto-fit,200px);
- gap:20px;
+ grid-template-columns:repeat(auto-fit,240px);
+ gap:25px;
  justify-content:center;
 }
 
 .card{
- background:white;
- padding:20px;
- border-radius:20px;
- box-shadow:0 5px 15px #0002;
+ background:rgba(255,255,255,0.8);
+ padding:25px;
+ border-radius:25px;
+ border:2px solid white;
+ box-shadow:0 0 20px #ffd1ea;
+ transition:.3s;
 }
 
-.btn{
- background:#ff6fb1;
- color:white;
- padding:10px 20px;
- border-radius:20px;
- text-decoration:none;
+.card:hover{
+ transform:scale(1.05);
 }
+
+/* ===== POPUP ===== */
+
+#popup{
+ position:fixed;
+ inset:0;
+ background:#0007;
+ display:flex;
+ justify-content:center;
+ align-items:center;
+ z-index:9999;
+}
+
+#popupBox{
+ background:white;
+ padding:30px;
+ border-radius:25px;
+ max-width:350px;
+ text-align:center;
+ box-shadow:0 0 30px pink;
+}
+
+/* ===== CURSOR EFFECT ===== */
+
+.sparkle{
+ position:fixed;
+ width:8px;
+ height:8px;
+ background:pink;
+ border-radius:50%;
+ pointer-events:none;
+ animation:fade .8s linear;
+}
+
+@keyframes fade{
+ from{opacity:1;transform:scale(1)}
+ to{opacity:0;transform:scale(0)}
+}
+
 </style>
 </head>
 
 <body>
 
+<!-- 🎧 MUSIC -->
+<audio autoplay loop>
+ <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<!-- 💬 POPUP -->
+<div id="popup">
+ <div id="popupBox">
+  <h2>💖 สวัสดีค่ะ</h2>
+  <p>แพร | Video Editor & Admin</p>
+  <p>ยินดีต้อนรับสู่ Portfolio ✨</p>
+  <button class="btn" onclick="closePopup()">เข้าเว็บ</button>
+ </div>
+</div>
+
+<!-- 🌸 NAV -->
 <nav>
- <a href="#home">หน้าแรก</a>
- <a href="#about">โปรไฟล์</a>
- <a href="#work">ผลงาน</a>
- <a href="#shop">ร้านค้า</a>
- <a href="#contact">ติดต่อ</a>
+ <a href="#home">Home</a>
+ <a href="#work">Works</a>
+ <a href="#shop">Shop</a>
+ <a href="#contact">Contact</a>
 </nav>
 
-<!-- หน้าแรก -->
+<!-- 🏠 HOME -->
 <section id="home">
- <h1>🌸 แพร Portfolio</h1>
- <p>Content Creator | Designer | Admin</p>
+
+ <h1>🌸 Prae Portfolio 🌸</h1>
+ <p>Editor | Admin | Commission</p>
+
+ <p>💿 💖 ⭐ 🦋 ✨</p>
+
+ <a class="btn" href="#contact">จ้างงาน</a>
+
 </section>
 
-<!-- โปรไฟล์ -->
-<section id="about">
- <h2>👩‍🎨 เกี่ยวกับฉัน</h2>
- <p>รับตัดต่อ ออกแบบ ดูแลเพจ และระบบเกม</p>
-</section>
-
-<!-- ผลงาน -->
+<!-- 💼 WORKS -->
 <section id="work">
- <h2>💼 ผลงาน</h2>
 
- <div class="grid">
-  <div class="card">🎬 ตัดต่อคลิป</div>
-  <div class="card">🎨 ออกแบบ</div>
-  <div class="card">🎮 FiveM</div>
- </div>
+<h2>💼 ผลงาน (Preview)</h2>
+
+<div>
+
+ <button class="btn" onclick="filter('all')">ทั้งหมด</button>
+ <button class="btn" onclick="filter('video')">ตัดต่อ</button>
+ <button class="btn" onclick="filter('design')">ออกแบบ</button>
+ <button class="btn" onclick="filter('admin')">แอดมิน</button>
+
+</div>
+
+<br>
+
+<div class="grid">
+
+ <div class="card work video">🎬 TikTok Edit</div>
+ <div class="card work video">🎥 Reels Edit</div>
+
+ <div class="card work design">🎨 Banner</div>
+ <div class="card work design">🖼️ Thumbnail</div>
+
+ <div class="card work admin">📱 Page Admin</div>
+ <div class="card work admin">💬 Chat Support</div>
+
+</div>
+
 </section>
 
-<!-- ร้าน -->
+<!-- 🛒 SHOP -->
 <section id="shop">
- <h2>🛒 ร้านค้า</h2>
 
- <div class="grid">
-  <div class="card">
-   ตัดคลิป 1 นาที<br>
-   199฿<br><br>
-   <a class="btn" href="#">สั่งซื้อ</a>
-  </div>
+<h2>🛒 Shop</h2>
 
-  <div class="card">
-   ออกแบบปก<br>
-   149฿<br><br>
-   <a class="btn" href="#">สั่งซื้อ</a>
-  </div>
+<div class="grid">
+
+ <div class="card">
+  🎬 ตัดคลิป<br>
+  199฿<br><br>
+
+  <a class="btn"
+  href="https://www.paypal.me/"
+  target="_blank">
+  Pay Now
+  </a>
  </div>
+
+ <div class="card">
+  🎨 คอมมิชชั่น<br>
+  149฿<br><br>
+
+  <a class="btn"
+  href="https://www.truemoney.com/"
+  target="_blank">
+  Pay Now
+  </a>
+ </div>
+
+</div>
+
 </section>
 
-<!-- ติดต่อ -->
+<!-- 📩 CONTACT -->
 <section id="contact">
- <h2>📩 ติดต่อ</h2>
 
- <p>
- Facebook | Line | Discord<br><br>
- <a class="btn" href="#">แชทเลย</a>
- </p>
+<h2>📩 ติดต่อ</h2>
+
+<p>
+📘 Facebook:<br>
+<a href="https://www.facebook.com/kanyathip.praelyy" target="_blank">
+kanyathip.praelyy
+</a>
+
+<br><br>
+
+📧 sakij6375@gmail.com
+</p>
+
+<a class="btn"
+href="https://www.facebook.com/kanyathip.praelyy"
+target="_blank">
+Inbox
+</a>
+
 </section>
+
+<!-- ⚡ SCRIPT -->
+<script>
+
+/* POPUP */
+function closePopup(){
+ document.getElementById("popup").style.display="none";
+}
+
+/* CURSOR */
+document.addEventListener("mousemove",e=>{
+ let s=document.createElement("div");
+ s.className="sparkle";
+ s.style.left=e.pageX+"px";
+ s.style.top=e.pageY+"px";
+ document.body.appendChild(s);
+
+ setTimeout(()=>s.remove(),800);
+});
+
+/* FILTER */
+function filter(type){
+
+ let items=document.querySelectorAll(".work");
+
+ items.forEach(i=>{
+
+  if(type==="all"){
+   i.style.display="block";
+  }
+
+  else if(i.classList.contains(type)){
+   i.style.display="block";
+  }
+
+  else{
+   i.style.display="none";
+  }
+
+ });
+}
+
+</script>
 
 </body>
 </html>
